@@ -86,8 +86,8 @@ driver = webdriver.Chrome("C:\\Users\\user\\PycharmProjects\\untitled\\chromedri
 driver.implicitly_wait(3)
 driver.get("http://152.99.43.46:28180/METIS/")
 driver.maximize_window()
-driver.find_element_by_name("main_login_user_id").send_keys("안병덕")
-driver.find_element_by_id("user_pw").send_keys("dksqudejr1120!")
+driver.find_element_by_name("main_login_user_id").send_keys("YOUR ID")
+driver.find_element_by_id("user_pw").send_keys("YOUR PASSWORD")
 driver.find_element_by_xpath("/html/body/div[2]/div/button").click()
 
 #Open Statistics tap
