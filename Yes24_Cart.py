@@ -9,8 +9,7 @@ import os
 
 """------------------------------------ Log In to Yes24 --------------------------------------"""
 
-
-driver = webdriver.Chrome("C:\\Users\\user\\PycharmProjects\\untitled\\chromedriver.exe")
+driver = webdriver.Chrome(os.path.dirname(os.path.abspath(__file__)) + "\chromedriver.exe")
 driver.implicitly_wait(3)
 driver.get("https://www.yes24.com/Templates/FTLogin.aspx")
 driver.maximize_window()
@@ -20,7 +19,6 @@ driver.find_element_by_xpath("//*[@id='btnLogin']/span/em").click()
 
 
 """------------------------------------ Extract Link List ------------------------------------"""
-
 
 def get_product_info(book):
     link = book.find("a", class_="pd_a")["href"]
@@ -103,40 +101,37 @@ def save_in_excel():
     ws1 = wb.active
     ws1.freeze_panes = "A2"
 
-    ws1["A1"] = "제목"
+    ws1["A1"] = "카테고리"
     ws1["A1"].font = Font(size=12, bold=True)
     ws1["A1"].fill = PatternFill(patternType="solid", fgColor=Color("B8CCE4"))
-    ws1["B1"] = "저자"
+    ws1["B1"] = "서명"
     ws1["B1"].font = Font(size=12, bold=True)
     ws1["B1"].fill = PatternFill(patternType="solid", fgColor=Color("B8CCE4"))
-    ws1["C1"] = "역자"
+    ws1["C1"] = "저자"
     ws1["C1"].font = Font(size=12, bold=True)
     ws1["C1"].fill = PatternFill(patternType="solid", fgColor=Color("B8CCE4"))
     ws1["D1"] = "출판사"
     ws1["D1"].font = Font(size=12, bold=True)
     ws1["D1"].fill = PatternFill(patternType="solid", fgColor=Color("B8CCE4"))
-    ws1["E1"] = "가격"
+    ws1["E1"] = "출판일"
     ws1["E1"].font = Font(size=12, bold=True)
     ws1["E1"].fill = PatternFill(patternType="solid", fgColor=Color("B8CCE4"))
-    ws1["F1"] = "표지"
+    ws1["F1"] = "정가"
     ws1["F1"].font = Font(size=12, bold=True)
     ws1["F1"].fill = PatternFill(patternType="solid", fgColor=Color("B8CCE4"))
     ws1["G1"] = "ISBN"
     ws1["G1"].font = Font(size=12, bold=True)
     ws1["G1"].fill = PatternFill(patternType="solid", fgColor=Color("B8CCE4"))
-    ws1["H1"] = "출판일"
-    ws1["H1"].font = Font(size=12, bold=True)
-    ws1["H1"].fill = PatternFill(patternType="solid", fgColor=Color("B8CCE4"))
+
 
     for row_index in range(1, len(j1)+1):
-        ws1.cell(row=row_index + 1, column=1).value = j3[row_index - 1]["title"]
-        ws1.cell(row=row_index + 1, column=2).value = j3[row_index - 1]["author"]
-        ws1.cell(row=row_index + 1, column=3).value = j3[row_index - 1]["translator"]
+        ws1.cell(row=row_index + 1, column=1).value = j3[row_index - 1]["category"]
+        ws1.cell(row=row_index + 1, column=2).value = j3[row_index - 1]["title"]
+        ws1.cell(row=row_index + 1, column=3).value = j3[row_index - 1]["author"]
         ws1.cell(row=row_index + 1, column=4).value = j3[row_index - 1]["publisher"]
-        ws1.cell(row=row_index + 1, column=5).value = j3[row_index - 1]["price"]
-        ws1.cell(row=row_index + 1, column=6).value = j3[row_index - 1]["cover"]
+        ws1.cell(row=row_index + 1, column=5).value = j3[row_index - 1]["date"]
+        ws1.cell(row=row_index + 1, column=6).value = j3[row_index - 1]["price"]
         ws1.cell(row=row_index + 1, column=7).value = j3[row_index - 1]["ISBN"]
-        ws1.cell(row=row_index + 1, column=8).value = j3[row_index - 1]["date"]
 
     wb.save(os.path.dirname(os.path.abspath(__file__)) + "\Yes24_Cart.xlsx")
 
