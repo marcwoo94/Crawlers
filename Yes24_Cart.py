@@ -44,7 +44,7 @@ def get_links():
 """---------------------------------Extract Book Information---------------------------------"""
 
 
-def get_book_info():
+def get_book_info(url):
     result = requests.get(url)
     bs_obj = BeautifulSoup(result.content, "html.parser")
 
