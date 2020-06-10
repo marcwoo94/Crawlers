@@ -13,8 +13,8 @@ driver = webdriver.Chrome(os.path.dirname(os.path.abspath(__file__)) + "\chromed
 driver.implicitly_wait(3)
 driver.get("https://www.yes24.com/Templates/FTLogin.aspx")
 driver.maximize_window()
-driver.find_element_by_name("SMemberID").send_keys("*******")
-driver.find_element_by_name("SMemberPassword").send_keys("*******")
+driver.find_element_by_name("SMemberID").send_keys("user_id")
+driver.find_element_by_name("SMemberPassword").send_keys("user_password")
 driver.find_element_by_xpath("//*[@id='btnLogin']/span/em").click()
 
 
