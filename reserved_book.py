@@ -70,23 +70,24 @@ def cancel_and_check_out():
             number_input.clear()
             number_input.send_keys(reserver_account_list[i])
             number_input.send_keys(Keys.ENTER)
-            time.sleep(3)
+            time.sleep(1)
 
             reserved_booklist = driver.find_element_by_xpath('//*[@id="local_loan_container"]/ul/li[2]/a')
             click(reserved_booklist)
 
-            check_reserved_books = driver.find_element_by_css_selector('tr[style="background: rgb(255, 224, 140);"] input')
+            check_reserved_books = driver.find_element_by_xpath('/html/body/div[1]/div/div[3]/main/div/ul[2]/li[1]/div/div[2]/div/div[1]/div[3]/div[3]/div/table/tbody/tr[2]/td[2]/input')
             click(check_reserved_books)
 
             detail_status = driver.find_element_by_id('bookingStatusButton')
             click(detail_status)
-            time.sleep(3)
+            time.sleep(1)
 
             book_regi_number_list.append(get_regi_number())
             driver.implicitly_wait(5)
 
             cancel_reservation = driver.find_element_by_xpath('//*[@id="common_popup_1"]/div/div/div[3]/div/div[2]/button[1]')
             click(cancel_reservation)
+            time.sleep(1)
 
             cancel = driver.find_element_by_xpath('//*[@id="msg_btn_1"]')
             click(cancel)
@@ -94,16 +95,19 @@ def cancel_and_check_out():
 
             confirm = driver.find_element_by_xpath('//*[@id="msg_btn_1"]')
             click(confirm)
+            print(f'"{book_title_list[i]}" 예약 취소')
 
             close = driver.find_element_by_xpath('//*[@id="common_popup_1"]/div/div/div[3]/div/div[2]/button[2]')
             click(close)
+            time.sleep(1)
 
             regi_input = driver.find_element_by_id("main_number_txt")
             regi_input.clear()
             regi_input.send_keys(book_regi_number_list[i])
             regi_input.send_keys(Keys.ENTER)
+            print(f'"{book_title_list[i]}" 대출')
 
-            time.sleep(5)
+            time.sleep(1)
 
             loan_list = driver.find_element_by_xpath('//*[@id="loanList"]')
             click(loan_list)
@@ -112,10 +116,12 @@ def cancel_and_check_out():
 
             check = driver.find_element_by_id(book_id[i])
             click(check)
-            time.sleep(3)
+            driver.implicitly_wait(5)
 
             renew = driver.find_element_by_xpath('//*[@id="returnDelay"]')
             click(renew)
+            print(f'"{book_title_list[i]}" 대출 연장')
+            time.sleep(1)
 
             close_button = driver.find_element_by_xpath('//*[@id="common_popup_1"]/div/div/div[3]/button')
             click(close_button)
@@ -136,23 +142,13 @@ def print_receipt():
             number_input.clear()
             number_input.send_keys(unique_reserver_account_list[i])
             number_input.send_keys(Keys.ENTER)
-            time.sleep(3)
+            driver.implicitly_wait(5)
 
-            v = 0
-            while True:
-                try:
-                    check = driver.find_element_by_id(book_id[v])
-                    click(check)
 
-                except NoSuchElementException:
-                    pass
+            print_receipt = driver.find_element_by_id("receiptPrintBtn_main")
+            click(print_receipt)
+            print(f'{reserver_name_list[i]}님의 현황 확인증 출력')
 
-                except IndexError:
-                    print_receipt = driver.find_element_by_id("receiptPrintBtn_main")
-                    click(print_receipt)
-                    print(f"{reserver_name_list[i]}님의 현황 확인증 출력")
-                    break
-                v += 1
 
         except IndexError:
             break
@@ -190,7 +186,7 @@ time.sleep(3)
 # Close Pop up
 popup = driver.find_element_by_xpath('//*[@id="closeNoticePopup"]')
 click(popup)
-driver.implicitly_wait(3)
+driver.implicitly_wait(5)
 
 # Open Reservation tap
 navigation = driver.find_element_by_xpath('//*[@id="right_container_wrapper"]/header/div[5]/nav/a')
@@ -198,12 +194,13 @@ click(navigation)
 manage_reservation = driver.find_element_by_xpath('//*[@id="COLI_01_HTML"]/li[6]')
 click(manage_reservation)
 driver.switch_to.window(driver.window_handles[1])
-driver.implicitly_wait(3)
+driver.implicitly_wait(5)
 
 # Get Account Number
 send_reservation_date(reservation_date_from, reservation_date_to)  # Enter reservation date
-driver.find_element_by_xpath('//*[@id="btn_search"]').click()   # Search
-driver.implicitly_wait(10)
+search = driver.find_element_by_xpath('//*[@id="btn_search"]')  # Search
+click(search)
+time.sleep(1)
 
 # Save Reserver Data
 reserver_name_list = []
@@ -222,6 +219,11 @@ driver.find_element_by_xpath('//*[@id="COLI_01_HTML"]/li[2]').click()
 driver.switch_to.window(driver.window_handles[2])
 driver.implicitly_wait(3)
 
+# Show Only Local Library Data
+only_local = driver.find_element_by_id("is_only_local")
+click(only_local)
+driver.implicitly_wait(3)
+
 
 # Set Unique Account List
 for v in reserver_account_list:
@@ -232,6 +234,3 @@ for v in reserver_account_list:
 # Get Registration Number, Cancel, and Check Out
 cancel_and_check_out()
 print_receipt()
-
-data = [get_reservation_data(i) for i in range(len(reserver_name_list))]
-print(data)
