@@ -62,6 +62,8 @@ class Ui_Yes24_Cart(object):
         self.pushButton.setText(_translate("Yes24_Cart", "장바구니 긁어오기"))
 
     def scrape_yes24_cart(self):
+        driver = webdriver.Chrome(os.path.dirname(os.path.abspath(__file__)) + "\chromedriver.exe")
+
         driver.implicitly_wait(3)
         driver.get("https://www.yes24.com/Templates/FTLogin.aspx")
         driver.maximize_window()
@@ -342,8 +344,6 @@ class Ui_Yes24_Cart(object):
             wb.save(os.path.dirname(os.path.abspath(__file__)) + "\구입자료 목록.xlsx")
 
         save_in_excel()
-
-driver = webdriver.Chrome(os.path.dirname(os.path.abspath(__file__)) + "\chromedriver.exe")
 
 if __name__ == "__main__":
     import sys
